@@ -17,9 +17,9 @@ public class AutomationEx_07 extends TestBaseRapor {
     AutomationExPage automationExPage;
 
     @Test
-    public void test02_Login_User_With_Correct_Info() throws InterruptedException {
+    public void test02_Verify_Testcases_Page() throws InterruptedException {
         automationExPage = new AutomationExPage();
-        extentTest = extentReports.createTest("test02_Login_User_With_Correct_Info", "automationexercise.com UI testcase 2");
+        extentTest = extentReports.createTest("test07_Verify_Testcases_Page", "automationexercise.com UI testcase 7");
         extentTest.info("1. Launch browser, 2. Navigate to url 'http://automationexercise.com");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
         Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
