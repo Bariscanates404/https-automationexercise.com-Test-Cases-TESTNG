@@ -86,5 +86,5 @@ public class AutomationEx_01 extends TestBaseRapor {
         String expectedId = ConfigReader.getProperty("autExValidName");
         Assert.assertEquals(actualId, expectedId);
         extentTest.pass("User logged in succesfully!");
-    }
+    } 
 }
