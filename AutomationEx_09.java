@@ -24,7 +24,7 @@ public class AutomationEx_09 extends TestBaseRapor {
         extentTest = extentReports.createTest("test09_Search_Product", "automationexercise.com UI testcase 9");
         extentTest.info("1. Launch browser, 2. Navigate to url 'http://automationexercise.com");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         extentTest.info("3. Verify that home page is visible successfully");
         Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
