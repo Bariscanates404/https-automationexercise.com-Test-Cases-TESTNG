@@ -16,9 +16,7 @@ import java.time.Duration;
 import java.util.List;
 
 public class AutomationEx_10 extends TestBaseRapor {
-
     AutomationExPage automationExPage;
-    Actions actions = new Actions(Driver.getDriver());
 
     @Test
     public void test10_Verify_Subscription_in_home_page() throws InterruptedException {
@@ -26,9 +24,9 @@ public class AutomationEx_10 extends TestBaseRapor {
         extentTest = extentReports.createTest("test10_Verify_Subscription_in_home_page", "automationexercise.com UI testcase 10");
         extentTest.info("1. Launch browser, 2. Navigate to url 'http://automationexercise.com");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         extentTest.info("3. Verify that home page is visible successfully");
-        Assert.assertTrue(ReusableMethods.verifyURL(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
+        Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
         for (WebElement element : mainPageTumResimler) {
             element.isDisplayed();
@@ -36,9 +34,10 @@ public class AutomationEx_10 extends TestBaseRapor {
         }
         extentTest.info("4. Scroll down to footer");
         JavascriptExecutor js=(JavascriptExecutor)Driver.getDriver();
+        Thread.sleep(500);
         js.executeScript("arguments[0].scrollIntoView();", automationExPage.mainPageSubscriptionText);
         extentTest.info("5. Verify text 'SUBSCRIPTION'");
-        Assert.assertTrue(ReusableMethods.verifyURL(automationExPage.mainPageSubscriptionText.getText(),"SUBSCRIPTION"));
+        Assert.assertTrue(ReusableMethods.verifyURLorText(automationExPage.mainPageSubscriptionText.getText(),"SUBSCRIPTION"));
         extentTest.info("6. Enter email address in input and click arrow button");
         automationExPage.mainPageSubscriptionInput.sendKeys(ConfigReader.getProperty("autExEmail"));
         automationExPage.mainPageSubscriptionArrowButton.click();
