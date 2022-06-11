@@ -21,11 +21,10 @@ public class AutomationEx_17 extends TestBaseRapor {
     @Test
     public void test17_Remove_Products_From_Cart() throws InterruptedException {
         automationExPage = new AutomationExPage();
-
         extentTest = extentReports.createTest("test17_Remove_Products_From_Cart", "automationexercise.com UI testcase 17");
         extentTest.info("1. Launch browser, 2. Navigate to url 'http://automationexercise.com");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         extentTest.info("3. Verify that home page is visible successfully");
         Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
@@ -36,6 +35,7 @@ public class AutomationEx_17 extends TestBaseRapor {
         extentTest.info("4. Add products to cart");
         Actions actions = new Actions(Driver.getDriver());
         JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        Thread.sleep(500);
         js.executeScript("arguments[0].scrollIntoView();", automationExPage.productPageAddtoCartFirstItem);
         actions.moveToElement(Driver.getDriver().findElement(By.xpath("(//div[@class='product-overlay'])[1]"))).perform();
         actions.moveToElement(automationExPage.productPageAddtoCartFirstItem).click().perform();
@@ -46,12 +46,12 @@ public class AutomationEx_17 extends TestBaseRapor {
         extentTest.info("5. Click 'Cart' button");
         automationExPage.mainPageCartButton.click();
         extentTest.info("6. Verify that cart page is displayed");
-        ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/view_cart");
+        Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/view_cart"));
         extentTest.info("7. Click 'X' button corresponding to particular product");
         String firstProduct = automationExPage.cartPageProduct1.getText();
         automationExPage.cartPageDeleteButton1.click();
         extentTest.info("8. Verify that product is removed from the cart");
-        ReusableMethods.verifyURLorText(firstProduct, automationExPage.cartPageProduct1.getText());
+        Assert.assertTrue(ReusableMethods.verifyURLorText(firstProduct, automationExPage.cartPageProduct1.getText()));
         extentTest.pass("Remove products on cart function is works as espectedly!");
     }
 }
