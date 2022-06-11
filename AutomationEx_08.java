@@ -14,7 +14,6 @@ import java.time.Duration;
 import java.util.List;
 
 public class AutomationEx_08 extends TestBaseRapor {
-
     AutomationExPage automationExPage;
 
     @Test
@@ -23,11 +22,9 @@ public class AutomationEx_08 extends TestBaseRapor {
         extentTest = extentReports.createTest("test08_Verify_All_Products_product_detail_page", "automationexercise.com UI testcase 8");
         extentTest.info("1. Launch browser, 2. Navigate to url 'http://automationexercise.com");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         extentTest.info("3. Verify that home page is visible successfully");
-        String actualURL = Driver.getDriver().getCurrentUrl();
-        String expectedURL = "https://automationexercise.com/";
-        Assert.assertEquals(actualURL, expectedURL);
+        Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
         for (WebElement element : mainPageTumResimler) {
             element.isDisplayed();
