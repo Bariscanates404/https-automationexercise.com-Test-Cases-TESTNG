@@ -7,13 +7,13 @@ import org.testng.annotations.Test;
 import pages.AutomationExPage;
 import utilities.ConfigReader;
 import utilities.Driver;
+import utilities.ReusableMethods;
 import utilities.TestBaseRapor;
 
 import java.time.Duration;
 import java.util.List;
 
 public class AutomationEx_04 extends TestBaseRapor {
-
     AutomationExPage automationExPage;
 
     @Test
@@ -22,11 +22,9 @@ public class AutomationEx_04 extends TestBaseRapor {
         extentTest = extentReports.createTest("test04_Logout_User", "automationexercise.com UI testcase 4");
         extentTest.info("1. Launch browser, 2. Navigate to url 'http://automationexercise.com");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         extentTest.info("3. Verify that home page is visible successfully");
-        String actualURL = Driver.getDriver().getCurrentUrl();
-        String expectedURL = "https://automationexercise.com/";
-        Assert.assertEquals(actualURL, expectedURL);
+        Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
         for (WebElement element : mainPageTumResimler) {
             element.isDisplayed();
@@ -48,8 +46,7 @@ public class AutomationEx_04 extends TestBaseRapor {
         extentTest.info("9. Click 'Logout' button");
         automationExPage.loggedUserLogoutButton.click();
         extentTest.info("10. Verify that user is navigated to login page");
-        String actualLoginPageUrl = Driver.getDriver().getCurrentUrl();
-        String expectedLoginPageUrl = "https://automationexercise.com/login";
+        Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(),"https://automationexercise.com/login"));
         extentTest.pass("User logout operation works as expected!");
     }
 }
