@@ -17,7 +17,6 @@ import java.util.List;
 
 public class AutomationEx_20 extends TestBaseRapor {
     AutomationExPage automationExPage;
-    JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
 
     @Test
     public void test20_Search_Products_and_Verify_Cart_After_Login() throws InterruptedException {
@@ -25,7 +24,7 @@ public class AutomationEx_20 extends TestBaseRapor {
         extentTest = extentReports.createTest("test20_Search_Products_and_Verify_Cart_After_Login", "automationexercise.com UI testcase 20");
         extentTest.info("1. Launch browser and Navigate to url 'http://automationexercise.com , 2. Verify that home page is visible successfully");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
         for (WebElement element : mainPageTumResimler) {
@@ -50,6 +49,8 @@ public class AutomationEx_20 extends TestBaseRapor {
             items.isDisplayed();
         }
         extentTest.info("8. Add those products to cart");
+        JavascriptExecutor js=(JavascriptExecutor)Driver.getDriver();
+        Thread.sleep(500);
         js.executeScript("arguments[0].scrollIntoView();", Driver.getDriver().findElement(By.xpath("(//a[@data-product-id='39'])[1]")));
         actions.moveToElement(Driver.getDriver().findElement(By.xpath("(//div[@class='product-overlay'])[1]"))).perform();
         actions.moveToElement(Driver.getDriver().findElement(By.xpath("(//a[@data-product-id='39'])[1]"))).click().perform();
