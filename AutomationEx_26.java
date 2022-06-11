@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import pages.AutomationExPage;
 import utilities.ConfigReader;
 import utilities.Driver;
+import utilities.ReusableMethods;
 import utilities.TestBaseRapor;
 
 import java.time.Duration;
@@ -22,11 +23,9 @@ public class AutomationEx_26 extends TestBaseRapor {
         extentTest = extentReports.createTest("test26_Verify_Scroll_Up_without_Arrow_button_and_Scroll_Down_functionality", "automationexercise.com UI testcase 26");
         extentTest.info("1. Launch browser, 2. Navigate to url 'http://automationexercise.com");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         extentTest.info("3. Verify that home page is visible successfully");
-        String actualURL = Driver.getDriver().getCurrentUrl();
-        String expectedURL = "https://automationexercise.com/";
-        Assert.assertEquals(actualURL, expectedURL);
+        Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
         for (WebElement element : mainPageTumResimler) {
             element.isDisplayed();
@@ -34,10 +33,12 @@ public class AutomationEx_26 extends TestBaseRapor {
         }
         extentTest.info("4. Scroll to bottom of page");
         JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        Thread.sleep(500);
         js.executeScript("arguments[0].scrollIntoView();", automationExPage.mainPageRecommendedItemsList);
         extentTest.info("5. Verify 'SUBSCRIPTION' is visible");
         automationExPage.cartPageSubscriptionText.isDisplayed();
         extentTest.info("6. Scroll up page to top");
+        Thread.sleep(500);
         js.executeScript("arguments[0].scrollIntoView();", automationExPage.mainPageCartButton);
         extentTest.info("7. Verify that page is scrolled up and 'Full-Fledged practice website for Automation Engineers' text is visible on screen");
         List<WebElement> fullFledged=Driver.getDriver().findElements(By.cssSelector(" div.col-sm-6 h2"));
