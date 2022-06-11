@@ -15,7 +15,6 @@ import java.time.Duration;
 import java.util.List;
 
 public class AutomationEx_11 extends TestBaseRapor {
-
     AutomationExPage automationExPage;
 
     @Test
@@ -24,7 +23,7 @@ public class AutomationEx_11 extends TestBaseRapor {
         extentTest = extentReports.createTest("test11_Verify_Subscription_in_chart_page", "automationexercise.com UI testcase 11");
         extentTest.info("1. Launch browser, 2. Navigate to url 'http://automationexercise.com");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         extentTest.info("3. Verify that home page is visible successfully");
         Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
@@ -36,14 +35,15 @@ public class AutomationEx_11 extends TestBaseRapor {
         automationExPage.mainPageCartButton.click();
         extentTest.info("5. Scroll down to footer");
         JavascriptExecutor js=(JavascriptExecutor) Driver.getDriver();
+        Thread.sleep(500);
         js.executeScript("arguments[0].scrollIntoView();", automationExPage.cartPageSubscriptionText);
         extentTest.info("6. Verify text 'SUBSCRIPTION'");
-        ReusableMethods.verifyURLorText(automationExPage.cartPageSubscriptionText.getText(),"SUBSCRIPTION");
+        Assert.assertTrue(ReusableMethods.verifyURLorText(automationExPage.cartPageSubscriptionText.getText(),"SUBSCRIPTION"));
         extentTest.info("7. Enter email address in input and click arrow button");
         automationExPage.cartPageSubscriptionInput.sendKeys(ConfigReader.getProperty("autExEmail"));
         automationExPage.cartPageSubscriptionArrowButton.click();
         extentTest.info("8. Verify success message 'You have been successfully subscribed!' is visible");
-        ReusableMethods.verifyURLorText(automationExPage.cartPageSubscriptionSuccessAlert.getText(),"You have been successfully subscribed!");
+        Assert.assertTrue(ReusableMethods.verifyURLorText(automationExPage.cartPageSubscriptionSuccessAlert.getText(),"You have been successfully subscribed!"));
         extentTest.pass("Cart page subscription panel works as expectedly!");
 
     }
