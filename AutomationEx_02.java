@@ -45,7 +45,7 @@ public class AutomationEx_02 extends TestBaseRapor {
         String actualsername = automationExPage.loggedUserName.getText();
         String expectedUsername = ConfigReader.getProperty("autExValidName");
         Assert.assertEquals(actualsername, expectedUsername);
-
+ 
         extentTest.pass("User logged in with valid account informations successfully!");
     }
 }
