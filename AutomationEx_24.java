@@ -21,11 +21,11 @@ import java.util.List;
 
 public class AutomationEx_24 extends TestBaseRapor {
     AutomationExPage automationExPage;
-    Faker faker = new Faker();
     Select select;
 
     @Test
     public void test24_Download_Invoice_after_purchase_order() throws InterruptedException {
+        Faker faker = new Faker();
         automationExPage = new AutomationExPage();
         String fakeFirstName = faker.name().nameWithMiddle();
         String fakeLastName = faker.name().lastName();
@@ -35,12 +35,11 @@ public class AutomationEx_24 extends TestBaseRapor {
         String fakePassword = faker.internet().password();
         String fakeMobilePhone = faker.phoneNumber().cellPhone();
         String fakeMessage = faker.hitchhikersGuideToTheGalaxy().marvinQuote();
-
-
+        
         extentTest = extentReports.createTest("test24_Download_Invoice_after_purchase_order", "automationexercise.com UI testcase 24");
         extentTest.info("1. Launch browser, 2. Navigate to url 'http://automationexercise.com");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         extentTest.info("3. Verify that home page is visible successfully");
         Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
@@ -51,6 +50,7 @@ public class AutomationEx_24 extends TestBaseRapor {
         extentTest.info("4. Add products to cart");
         Actions actions = new Actions(Driver.getDriver());
         JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        Thread.sleep(500);
         js.executeScript("arguments[0].scrollIntoView();", automationExPage.productPageAddtoCartFirstItem);
         actions.moveToElement(Driver.getDriver().findElement(By.xpath("(//div[@class='product-overlay'])[1]"))).perform();
         actions.moveToElement(automationExPage.productPageAddtoCartFirstItem).click().perform();
@@ -61,7 +61,7 @@ public class AutomationEx_24 extends TestBaseRapor {
         extentTest.info("5. Click 'Cart' button");
         automationExPage.mainPageCartButton.click();
         extentTest.info("6. Verify that cart page is displayed");
-        ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/view_cart");
+        Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/view_cart"));
         extentTest.info("7. Click Proceed To Checkout");
         Thread.sleep(500);
         automationExPage.cartPageProceedToCheckOutButton.click();
@@ -96,10 +96,10 @@ public class AutomationEx_24 extends TestBaseRapor {
         automationExPage.loginFormAdressInfoMobileNumber.sendKeys(fakeMobilePhone);
         automationExPage.loginFormAdressInfoCreateAccountButton.click();
         extentTest.info("10. Verify 'ACCOUNT CREATED!' and click 'Continue' button");
-        ReusableMethods.verifyURLorText(automationExPage.verifyAccountCreated.getText(), "ACCOUNT CREATED!");
+        Assert.assertTrue(ReusableMethods.verifyURLorText(automationExPage.verifyAccountCreated.getText(), "ACCOUNT CREATED!"));
         automationExPage.accountCreateContinueButton.click();
         extentTest.info("11. Verify ' Logged in as username' at top");
-        ReusableMethods.verifyURLorText(automationExPage.loggedUserName.getText(), fakeFirstName);
+        Assert.assertTrue(ReusableMethods.verifyURLorText(automationExPage.loggedUserName.getText(), fakeFirstName));
         extentTest.info("12.Click 'Cart' button");
         automationExPage.mainPageCartButton.click();
         extentTest.info("13. Click 'Proceed To Checkout' button");
@@ -120,10 +120,10 @@ public class AutomationEx_24 extends TestBaseRapor {
         extentTest.info("17. Click 'Pay and Confirm Order' button");
         automationExPage.paymentPagePayAndConfirmOrderButton.click();
         extentTest.info("18. Verify success message 'Your order has been placed successfully!'");
-        ReusableMethods.verifyURLorText(automationExPage.paymentDonePageSuccessMessageText.getText(), "Your order has been placed successfully!");
+        Assert.assertTrue(ReusableMethods.verifyURLorText(automationExPage.paymentDonePageSuccessMessageText.getText(), "Congratulations! Your order has been confirmed!"));
         extentTest.info("19. Click 'Download Invoice' button and verify invoice is downloaded successfully.");
         Driver.getDriver().findElement(By.cssSelector("div a[class='btn btn-default check_out']")).click();
-        Thread.sleep(5000);
+        Thread.sleep(2500);
         Assert.assertTrue(ReusableMethods.fileDownloadVerification("invoice.txt"));
         extentTest.pass("Download invoice after purchase functions are works as expectedly!");
     }
