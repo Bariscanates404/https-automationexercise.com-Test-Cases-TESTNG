@@ -16,10 +16,10 @@ import java.util.List;
 
 public class AutomationEx_21 extends TestBaseRapor {
     AutomationExPage automationExPage;
-    Faker faker=new Faker();
 
     @Test
     public void test21_Add_review_on_product() throws InterruptedException {
+        Faker faker = new Faker();
         automationExPage = new AutomationExPage();
         String fakeMessage = faker.hitchhikersGuideToTheGalaxy().marvinQuote();
         String fakeFirstName = faker.name().nameWithMiddle();
@@ -28,7 +28,7 @@ public class AutomationEx_21 extends TestBaseRapor {
         extentTest = extentReports.createTest("test21_Add_review_on_product", "automationexercise.com UI testcase 21");
         extentTest.info("1. Launch browser and Navigate to url 'http://automationexercise.com , 2. Verify that home page is visible successfully");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
         for (WebElement element : mainPageTumResimler) {
