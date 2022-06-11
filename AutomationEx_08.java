@@ -48,15 +48,15 @@ public class AutomationEx_08 extends TestBaseRapor {
         extentTest.info("7. Click on 'View Product' of first product");
         Driver.getDriver().findElement(By.xpath("//a[@href='/product_details/1']")).click();
         extentTest.info("8. User is landed to product detail page");
-        Assert.assertTrue(ReusableMethods.verifyURL(Driver.getDriver().getCurrentUrl(),"https://automationexercise.com/product_details/1"));
+        Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/product_details/1"));
         extentTest.info("9. Verify that detail detail is visible: product name, category, price, availability, condition, brand");
-            automationExPage.oneProductPageProductName.isDisplayed();
-            automationExPage.oneProductPageProductCategory.isDisplayed();
-            automationExPage.oneProductPageProductPrice.isDisplayed();
-            automationExPage.oneProductPageProductPrice.isDisplayed();
-            automationExPage.oneProductPageProductAvalibility.isDisplayed();
-            automationExPage.oneProductPageProductCondition.isDisplayed();
-            automationExPage.oneProductPageProductBrand.isDisplayed();
+        automationExPage.oneProductPageProductName.isDisplayed();
+        automationExPage.oneProductPageProductCategory.isDisplayed();
+        automationExPage.oneProductPageProductPrice.isDisplayed();
+        automationExPage.oneProductPageProductPrice.isDisplayed();
+        automationExPage.oneProductPageProductAvalibility.isDisplayed();
+        automationExPage.oneProductPageProductCondition.isDisplayed();
+        automationExPage.oneProductPageProductBrand.isDisplayed();
 
         extentTest.pass("All products page and product details page works as expectedly!");
     }
