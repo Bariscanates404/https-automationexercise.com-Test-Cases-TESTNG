@@ -25,7 +25,7 @@ public class AutomationEx_13 extends TestBaseRapor {
         extentTest = extentReports.createTest("test13_Verify_Product_quantity_in_Cart", "automationexercise.com UI testcase 13");
         extentTest.info("1. Launch browser, 2. Navigate to url 'http://automationexercise.com");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         extentTest.info("3. Verify that home page is visible successfully");
         Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
@@ -36,6 +36,7 @@ public class AutomationEx_13 extends TestBaseRapor {
         extentTest.info("4. Click 'View Product' for any product on home page");
         JavascriptExecutor js=(JavascriptExecutor)Driver.getDriver();
         String firstItemName = Driver.getDriver().findElement(By.xpath("(//p[text()='Blue Top'])[1]")).getText();
+        Thread.sleep(500);
         js.executeScript("arguments[0].scrollIntoView();", Driver.getDriver().findElement(By.xpath("//a[@href='/product_details/1']")));
         Driver.getDriver().findElement(By.xpath("//a[@href='/product_details/1']")).click();
         extentTest.info("5. Verify product detail is opened");
@@ -51,6 +52,5 @@ public class AutomationEx_13 extends TestBaseRapor {
         Assert.assertEquals(firstItemName, Driver.getDriver().findElement(By.xpath("//a[text()='Blue Top']")).getText());
         Assert.assertEquals(automationExPage.cartPageQuantity.getText(),"4");
         extentTest.pass("Quantity funtion is works as expected!");
-
     }
 }
