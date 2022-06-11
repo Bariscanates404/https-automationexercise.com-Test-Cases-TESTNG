@@ -16,9 +16,7 @@ import java.time.Duration;
 import java.util.List;
 
 public class AutomationEx_09 extends TestBaseRapor {
-
     AutomationExPage automationExPage;
-    Actions actions = new Actions(Driver.getDriver());
 
     @Test
     public void test09_Search_Product() throws InterruptedException {
@@ -28,9 +26,7 @@ public class AutomationEx_09 extends TestBaseRapor {
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
         Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         extentTest.info("3. Verify that home page is visible successfully");
-        String actualURL = Driver.getDriver().getCurrentUrl();
-        String expectedURL = "https://automationexercise.com/";
-        Assert.assertEquals(actualURL, expectedURL);
+        Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
         for (WebElement element : mainPageTumResimler) {
             element.isDisplayed();
@@ -39,14 +35,14 @@ public class AutomationEx_09 extends TestBaseRapor {
         extentTest.info("4. Click on 'Products' button");
         automationExPage.mainPageProductsButonu.click();
         extentTest.info("5. Verify user is navigated to ALL PRODUCTS page successfully");
-        Assert.assertTrue(ReusableMethods.verifyURL(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/products"));
+        Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/products"));
         extentTest.info("6. Enter product name in search input and click search button");
         String productName = "Blue Top";
-        actions.click(automationExPage.productPageSearchPanel).sendKeys(productName).sendKeys(Keys.ENTER);
+        Actions actions = new Actions(Driver.getDriver());
+        actions.moveToElement(automationExPage.productPageSearchPanel).click().perform();
+        actions.sendKeys(productName).moveToElement(Driver.getDriver().findElement(By.cssSelector(".fa.fa-search"))).click().perform();
         extentTest.info("7. Verify 'SEARCHED PRODUCTS' is visible");
-        String acutalSearchedItem = automationExPage.SearchPanelSearchedItem.getText();
-        String expectedSearchedItem = "Blue Top";
-        Assert.assertEquals(acutalSearchedItem, expectedSearchedItem);
+        Assert.assertTrue(ReusableMethods.verifyURLorText(automationExPage.productPageTopTitleText.getText(),"SEARCHED PRODUCTS"));
         extentTest.info("8. Verify all the products related to search are visible");
         List<WebElement> allSearchResults = Driver.getDriver().findElements(By.cssSelector(".product-overlay"));
         for (WebElement items : allSearchResults
