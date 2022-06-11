@@ -15,7 +15,6 @@ import java.time.Duration;
 import java.util.List;
 
 public class AutomationEx_19 extends TestBaseRapor {
-    JavascriptExecutor js=(JavascriptExecutor)Driver.getDriver();
     AutomationExPage automationExPage;
 
     @Test
@@ -24,7 +23,7 @@ public class AutomationEx_19 extends TestBaseRapor {
         extentTest = extentReports.createTest("test19_View_Cart_Brand_Products", "automationexercise.com UI testcase 19");
         extentTest.info("1. Launch browser and Navigate to url 'http://automationexercise.com , 2. Verify that home page is visible successfully");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
         for (WebElement element : mainPageTumResimler) {
@@ -34,9 +33,10 @@ public class AutomationEx_19 extends TestBaseRapor {
         extentTest.info("4. Verify that Brands are visible on left side bar");
         automationExPage.mainPageCategoryBrandBar.isDisplayed();
         extentTest.info("5. Click on any brand name");
+        Thread.sleep(500);
+        JavascriptExecutor js=(JavascriptExecutor)Driver.getDriver();
         js.executeScript("arguments[0].scrollIntoView();", automationExPage.mainPageBrandsPolo);
         automationExPage.mainPageBrandsPolo.click();
-        Thread.sleep(500);
         extentTest.info("6. Verify that user is navigated to brand page and brand products are displayed");
         Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/brand_products/Polo"));
         List<WebElement> poloBrandPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
@@ -45,6 +45,7 @@ public class AutomationEx_19 extends TestBaseRapor {
             element.isEnabled();
         }
         extentTest.info("7. On left side bar, click on any other brand link");
+        Thread.sleep(500);
         js.executeScript("arguments[0].scrollIntoView();", automationExPage.mainPageBrandsHarbour);
         automationExPage.mainPageBrandsHarbour.click();
         extentTest.info("8. Verify that user is navigated to that brand page and can see products");
