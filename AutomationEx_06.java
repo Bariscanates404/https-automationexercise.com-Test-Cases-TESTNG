@@ -1,6 +1,7 @@
 package tests.automationExCases;
 
 import com.github.javafaker.Faker;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -10,6 +11,7 @@ import utilities.Driver;
 import utilities.TestBaseRapor;
 
 import java.time.Duration;
+import java.util.List;
 
 public class AutomationEx_06 extends TestBaseRapor {
 
@@ -33,7 +35,8 @@ public class AutomationEx_06 extends TestBaseRapor {
         String actualURL = Driver.getDriver().getCurrentUrl();
         String expectedURL = "https://automationexercise.com/";
         Assert.assertEquals(actualURL, expectedURL);
-        for (WebElement element : automationExPage.sayfadakiTumResimler) {
+        List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
+        for (WebElement element : mainPageTumResimler) {
             element.isDisplayed();
             element.isEnabled();
         }
