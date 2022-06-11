@@ -8,20 +8,19 @@ import org.testng.annotations.Test;
 import pages.AutomationExPage;
 import utilities.ConfigReader;
 import utilities.Driver;
+import utilities.ReusableMethods;
 import utilities.TestBaseRapor;
 
 import java.time.Duration;
 import java.util.List;
 
 public class AutomationEx_06 extends TestBaseRapor {
-
     AutomationExPage automationExPage;
-    Faker faker;
 
     @Test
     public void test06_Contact_Us_Form() throws InterruptedException {
         automationExPage = new AutomationExPage();
-        faker = new Faker();
+        Faker faker = new Faker();
         String filePath = "C:\\Users\\tunab\\Desktop\\TestNg Reports\\1.jpg";
         String fakeName = faker.name().fullName();
         String fakeEmail = faker.internet().emailAddress();
@@ -30,11 +29,9 @@ public class AutomationEx_06 extends TestBaseRapor {
         extentTest = extentReports.createTest("test06_Contact_Us_Form", "automationexercise.com UI testcase 6");
         extentTest.info("1. Launch browser, 2. Navigate to url 'http://automationexercise.com");
         Driver.getDriver().get(ConfigReader.getProperty("autExUrl"));
-        Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ReusableMethods.waitForPageToLoad(10);
         extentTest.info("3. Verify that home page is visible successfully");
-        String actualURL = Driver.getDriver().getCurrentUrl();
-        String expectedURL = "https://automationexercise.com/";
-        Assert.assertEquals(actualURL, expectedURL);
+        Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         List<WebElement> mainPageTumResimler = Driver.getDriver().findElements(By.xpath("//div[@class='productinfo text-center']"));
         for (WebElement element : mainPageTumResimler) {
             element.isDisplayed();
@@ -61,7 +58,7 @@ public class AutomationEx_06 extends TestBaseRapor {
         Assert.assertEquals(actualAlertMessage, expectedAlertMessage);
         extentTest.info("11. Click 'Home' button and verify that landed to home page successfully");
         automationExPage.contactUsHomeButton.click();
-        Assert.assertEquals(actualURL, expectedURL);
+        Assert.assertTrue(ReusableMethods.verifyURLorText(Driver.getDriver().getCurrentUrl(), "https://automationexercise.com/"));
         extentTest.pass("Contact us form is works as expected!");
     }
 }
