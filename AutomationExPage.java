@@ -30,7 +30,7 @@ public class AutomationExPage {
     public WebElement mainPageCartButton;
     @FindBy(xpath = "//i[@class='fa fa-angle-up']")
     public WebElement mainPageArrowUptoAngleUp;
-
+ 
     //Recommended items
     @FindBy(xpath = "//h2[text()='recommended items']")
     public WebElement mainPageRecommendedItemsList;
